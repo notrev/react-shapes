@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './App.css';
-import { SVG, Point } from '../';
+import { SVG, Point, Parallelogram } from '../';
 
 /**
  * App Component
@@ -36,7 +36,6 @@ class App extends React.Component {
    * @param {object} evt Event object
    */
   handleClickOnSVG(evt) {
-    console.log('handleClickOnSVG()');
     // if clicked 3 times, don't create more points on next clicks
     if (this.state.points.length >= 3) {
       return;
@@ -107,6 +106,18 @@ class App extends React.Component {
   }
 
   /**
+   * Creates a paralleogram with the points in the components state, if there are 4 of them.
+   *
+   * @return {string} JSX component
+   */
+  createParallelogram() {
+    if (this.state.points.length < 4) {
+      return;
+    }
+    return <Parallelogram points={this.state.points} />;
+  }
+
+  /**
    * Renders the component
    *
    * @return {string} JSX component
@@ -116,6 +127,7 @@ class App extends React.Component {
       <div className="app">
         <SVG onClick={this.handleClickOnSVG}>
           {this.createPoints()}
+          {this.createParallelogram()}
         </SVG>
       </div>
     );
