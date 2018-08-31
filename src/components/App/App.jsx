@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './App.css';
-import { SVG, Point, Parallelogram } from '../';
+import { SVG, Circle, Parallelogram } from '../';
 
 /**
  * App Component
@@ -20,6 +20,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       points: [],
+      center: { x: 0, y: 0 },
+      area: 0,
     };
 
     this.handleClickOnSVG = this.handleClickOnSVG.bind(this);
@@ -41,6 +43,7 @@ class App extends React.Component {
       return;
     }
 
+    const newState = {};
     const newPoints = [...this.state.points];
     const dimension = evt.target.getBoundingClientRect();
     let pointPosition = {
@@ -50,15 +53,18 @@ class App extends React.Component {
 
     newPoints.push(pointPosition);
 
+    newState.points = newPoints;
+
     // calculate the 4th point
     if (newPoints.length === 3) {
       pointPosition = this.calculate4thPoint(...newPoints);
       newPoints.push(pointPosition);
-    }
+      newState.points = newPoints;
 
-    this.setState({
-      points: newPoints,
-    });
+      newState.area = this.calculateAreaOfParallelogram(...newPoints);
+      newState.center = this.calculateCenterOfMassOfParallelogram(...newPoints);
+    }
+    this.setState(newState);
   }
 
   /**
@@ -70,8 +76,6 @@ class App extends React.Component {
    * @return {object} Position object containing x and y properties
    */
   calculate4thPoint(a, b, c) {
-    console.log('calculate4thPoint()');
-
     if (!a || !b || !c) {
       return null;
     }
@@ -80,6 +84,38 @@ class App extends React.Component {
       x: c.x + (b.x - a.x),
       y: c.y + (b.y - a.y),
     };
+  }
+
+  /**
+   * Calculates the center of mass of a parallelogram
+   *
+   * @param {object} a Position object containing x and y properties
+   * @param {object} b Position object containing x and y properties
+   * @param {object} c Position object containing x and y properties
+   * @param {object} d Position object containing x and y properties
+   * @return {object} Position object containing x and y properties
+   */
+  calculateCenterOfMassOfParallelogram(a, b, c, d) {
+    if (!a || !b || !c || !d) {
+      return null;
+    }
+
+    return {
+      x: a.x + ((d.x - a.x) / 2),
+      y: b.y + ((c.y - b.y) / 2),
+    };
+  }
+
+  /**
+   * Calculates the area of a parallelogram
+   *
+   * @param {object} a Position object containing x and y properties
+   * @param {object} b Position object containing x and y properties
+   * @param {object} c Position object containing x and y properties
+   * @return {object} Position object containing x and y properties
+   */
+  calculateAreaOfParallelogram(a, b, c) {
+    return (b.x - a.x) * (c.y - a.y);
   }
 
   /**
@@ -95,7 +131,7 @@ class App extends React.Component {
 
     return this.state.points
       .filter((position, i) => i < limit)
-      .map((position, i) => <Point key={i} position={position} />);
+      .map((position, i) => <Circle key={i} position={position} className="app__point"/>);
   }
 
   /**
@@ -106,7 +142,7 @@ class App extends React.Component {
   }
 
   /**
-   * Creates a paralleogram with the points in the components state, if there are 4 of them.
+   * Creates a parallelogram with the points in the components state, if there are 4 of them
    *
    * @return {string} JSX component
    */
@@ -118,6 +154,18 @@ class App extends React.Component {
   }
 
   /**
+   * Creates a circle with the same area as the parallelogram
+   */
+  createCircle() {
+    if (this.state.points.length < 4) {
+      return;
+    }
+
+    const radius = Math.sqrt(this.state.area / (2 * Math.PI));
+    return <Circle position={this.state.center} radius={radius} className="app__circle" />;
+  }
+
+  /**
    * Renders the component
    *
    * @return {string} JSX component
@@ -126,8 +174,9 @@ class App extends React.Component {
     return (
       <div className="app">
         <SVG onClick={this.handleClickOnSVG}>
-          {this.createPoints()}
+          {this.createPoints(3)}
           {this.createParallelogram()}
+          {this.createCircle()}
         </SVG>
       </div>
     );

@@ -1,11 +1,13 @@
 import React from 'react';
 
+import './Circle.css';
+
 /**
- * Point Component
+ * Circle Component
  *
  * @extends React.Component
  */
-class Point extends React.Component {
+class Circle extends React.Component {
   /**
    * Renders the component
    *
@@ -17,9 +19,7 @@ class Point extends React.Component {
         cx={this.props.position.x}
         cy={this.props.position.y}
         r={this.props.radius}
-        fill={this.props.fill}
-        stroke={this.props.stroke ? this.props.stroke.color : null}
-        strokeWidth={this.props.stroke ? this.props.stroke.width : null}/>
+        className={this.props.className} />
     );
   }
 }
@@ -27,17 +27,13 @@ class Point extends React.Component {
 /**
  * Default component properties
  */
-Point.defaultProps = {
+Circle.defaultProps = {
   position: {
     x: -10,
     y: -10,
   },
   radius: 11/2,
-  fill: '#f00',
-  stroke: {
-    color: null,
-    width: null,
-  },
+  className: '',
 };
 
-export default Point;
+export default Circle;

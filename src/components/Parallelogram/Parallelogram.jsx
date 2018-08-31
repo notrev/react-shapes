@@ -14,10 +14,10 @@ class Parallelogram extends React.Component {
    * @return {string} String with points in the order: a, b, d, c
    */
   preparePoints() {
-    let pointsString = `${this.props.points[0].x}, ${this.props.points[0].y} ` +
-      `${this.props.points[1].x}, ${this.props.points[1].y} ` +
-      `${this.props.points[3].x}, ${this.props.points[3].y} ` +
-      `${this.props.points[2].x}, ${this.props.points[2].y}`;
+    let pointsString = `${this.props.points[0].x},${this.props.points[0].y} ` +
+      `${this.props.points[1].x},${this.props.points[1].y} ` +
+      `${this.props.points[3].x},${this.props.points[3].y} ` +
+      `${this.props.points[2].x},${this.props.points[2].y}`;
     return pointsString;
   }
 

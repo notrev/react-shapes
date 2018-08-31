@@ -1,0 +1,9 @@
+.app__point {
+  fill: #f00;
+  stroke: none;
+}
+
+.app__circle {
+  fill: none;
+  stroke: #ff0;
+}
