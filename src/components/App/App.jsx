@@ -107,15 +107,19 @@ class App extends React.Component {
   }
 
   /**
-   * Calculates the area of a parallelogram
+   * Calculates the area of a parallelogram using the shoelace formula
    *
    * @param {object} a Position object containing x and y properties
    * @param {object} b Position object containing x and y properties
    * @param {object} c Position object containing x and y properties
+   * @param {object} d Position object containing x and y properties
    * @return {object} Position object containing x and y properties
    */
-  calculateAreaOfParallelogram(a, b, c) {
-    return (b.x - a.x) * (c.y - a.y);
+  calculateAreaOfParallelogram(a, b, c, d) {
+    const area = Math.abs((a.x * b.y) + (b.x * d.y) + (d.x * c.y) + (c.x * a.y) -
+        (b.x * a.y) - (d.x * b.y) - (c.x * d.y) - (a.x * c.y));
+
+    return area / 2;
   }
 
   /**
@@ -174,9 +178,9 @@ class App extends React.Component {
     return (
       <div className="app">
         <SVG onClick={this.handleClickOnSVG}>
-          {this.createPoints(3)}
           {this.createParallelogram()}
           {this.createCircle()}
+          {this.createPoints(3)}
         </SVG>
       </div>
     );
