@@ -1,7 +1,10 @@
 import React from 'react';
+import { DragDropContext } from 'react-dnd';
+import MouseBackend from 'react-dnd-mouse-backend';
+
+import { SVG, Circle, Parallelogram } from '../';
 
 import './App.css';
-import { SVG, Circle, Parallelogram } from '../';
 
 /**
  * App Component
@@ -27,6 +30,7 @@ class App extends React.Component {
     this.handleClickOnSVG = this.handleClickOnSVG.bind(this);
     this.createPoints = this.createPoints.bind(this);
     this.clearPoints = this.clearPoints.bind(this);
+    this.movePoint = this.movePoint.bind(this);
   }
 
   /**
@@ -135,7 +139,32 @@ class App extends React.Component {
 
     return this.state.points
       .filter((position, i) => i < limit)
-      .map((position, i) => <Circle key={i} position={position} className="app__point"/>);
+      .map((position, i) => (
+        <Circle
+          key={i}
+          positionIndex={i}
+          position={position}
+          isDraggable={true}
+          className="app__point" />
+      ));
+  }
+
+  /**
+   * Makes all necessary calculation when a point is moved and set the new component state
+   *
+   * @param {number} positionIndex Index of the moved point in the points list
+   * @param {object} newPosition Object containing the new position for the moved component
+   */
+  movePoint(positionIndex, newPosition) {
+    const newState =  { ...this.state };
+    newState.points = newState.points.filter((item, i) => i < 3);
+    newState.points[positionIndex] = newPosition;
+
+    newState.points.push(this.calculate4thPoint(...newState.points));
+    newState.area = this.calculateAreaOfParallelogram(...newState.points);
+    newState.center = this.calculateCenterOfMassOfParallelogram(...newState.points);
+
+    this.setState(newState);
   }
 
   /**
@@ -177,7 +206,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <SVG onClick={this.handleClickOnSVG}>
+        <SVG onClick={this.handleClickOnSVG} handleDrop={this.movePoint}>
           {this.createParallelogram()}
           {this.createCircle()}
           {this.createPoints(3)}
@@ -187,4 +216,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default DragDropContext(MouseBackend)(App);

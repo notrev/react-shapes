@@ -1,6 +1,26 @@
 import React from 'react';
+import { DragSource } from 'react-dnd';
+
+import { ItemTypes } from '../ItemTypes';
 
 import './Circle.css';
+
+// Source object for Drag and Drop
+const pointSource = {
+  beginDrag(props) {
+    return {
+      positionIndex: props.positionIndex,
+    };
+  },
+}
+
+// Collect function for Drag and Drop
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging(),
+  };
+}
 
 /**
  * Circle Component
@@ -14,13 +34,21 @@ class Circle extends React.Component {
    * @return {string} JSX component
    */
   render() {
-    return (
-      <circle
-        cx={this.props.position.x}
-        cy={this.props.position.y}
-        r={this.props.radius}
-        className={this.props.className} />
+    const { connectDragSource, isDragging } = this.props;
+
+    const component = (
+        <circle
+          draggable={false}
+          cx={this.props.position.x}
+          cy={this.props.position.y}
+          r={isDragging ? (this.props.radius + 3) : this.props.radius}
+          className={this.props.className} />
     );
+
+    if (this.props.isDraggable === true) {
+      return connectDragSource(component);
+    }
+    return component;
   }
 }
 
@@ -34,6 +62,7 @@ Circle.defaultProps = {
   },
   radius: 11/2,
   className: '',
+  isDraggable: false,
 };
 
-export default Circle;
+export default DragSource(ItemTypes.POINT, pointSource, collect)(Circle);
