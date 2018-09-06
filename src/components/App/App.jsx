@@ -2,7 +2,7 @@ import React from 'react';
 import { DragDropContext } from 'react-dnd';
 import MouseBackend from 'react-dnd-mouse-backend';
 
-import { SVG, Circle, Parallelogram } from '../';
+import { Info, SVG, Circle, Parallelogram } from '../';
 
 import './App.css';
 
@@ -210,56 +210,33 @@ class App extends React.Component {
    * @return {string} JSX component
    */
   render() {
-    let coordinates = 'none';
-    let center = 'none';
-    let area = 'none';
-
-    if (this.state.points.length > 0) {
-      const edges = ['A', 'B', 'C', 'D'];
-
-      coordinates = this.state.points
-        .map((point, i) => <li key={i}>{edges[i]}({point.x}, {point.y})</li>);
-    }
-
-    if (this.state.area) {
-      area = this.state.area;
-    }
-
-    if (this.state.center && this.state.center.x > -1 && this.state.center.y > -1) {
-      center = `(${this.state.center.x}, ${this.state.center.y})`;
-    }
 
     return (
       <div className="app">
-        <div className="app-info">
-          <ul className="app-info__list">
-            <li className="app-info__list-item--centralized">
-              <button className="app-info__button--primary">About</button>
-            </li>
+        <div className="app-sidebar">
+          <div className="app-sidebar__item-wrapper--centralized">
+            <button className="app-sidebar__button--primary">About</button>
+          </div>
 
-            <li className="app-info__list-item">
-              <div className="app-info__separator"></div>
-            </li>
+          <div className="app-sidebar__item-wrapper">
+            <div className="app-sidebar__separator"></div>
+          </div>
 
-            <li className="app-info__list-item">
-              <label for="app-info__area">Area:</label>
-              <div className="app-info__area">{area}</div>
-            </li>
-            <li className="app-info__list-item">
-              <label for="app-info__center">Center of mass:</label>
-              <div className="app-info__center">{center}</div>
-            </li>
-            <li className="app-info__list-item">
-              <label for="app-info__coordinates">Coordinates:</label>
-              <ul className="app-info__coordinates">{coordinates}</ul>
-            </li>
-            <li className="app-info__list-item--centralized">
-              <button
-                className="app-info__button--warning"
-                onClick={this.resetState}
-              >Reset</button>
-            </li>
-          </ul>
+          <div className="app-sidebar__item-wrapper">
+            <Info
+              points={this.state.points}
+              area={this.state.area}
+              center={this.state.center}
+            />
+          </div>
+
+          <div className="app-sidebar__item-wrapper--centralized">
+            <button
+              className="app-sidebar__button--warning"
+              onClick={this.resetState}
+            >Reset</button>
+          </div>
+
         </div>
         <SVG onClick={this.handleClickOnSVG} handleDrop={this.movePoint}>
           {this.createParallelogram()}

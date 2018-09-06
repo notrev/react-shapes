@@ -3,7 +3,7 @@
   height: 100%;
 }
 
-.app-info {
+.app-sidebar {
   position: absolute;
   left: 30px;
   background-color: #e6e6e6;
@@ -15,37 +15,24 @@
   border-radius: 0 0 10px 10px;
 }
 
-.app-info__list {
-  margin-left: auto;
-  margin-right: auto;
-  list-style: none;
-  padding: 0;
-}
-
-.app-info__list-item,
-.app-info__list-item--centralized {
+.app-sidebar__item-wrapper,
+.app-sidebar__item-wrapper--centralized {
   margin: 5px 10px;
 }
 
-.app-info__list-item--centralized {
+.app-sidebar__item-wrapper--centralized {
   text-align: center;
 }
 
-.app-info__separator {
+.app-sidebar__separator {
   border-bottom: 1px solid #dad6d6;
   margin: 15px 0;
   width: 100%;
 }
 
-.app-info__area,
-.app-info__center,
-.app-info__coordinates {
-  padding-left: 40px;
-}
-
-.app-info__button,
-.app-info__button--primary,
-.app-info__button--warning {
+.app-sidebar__button,
+.app-sidebar__button--primary,
+.app-sidebar__button--warning {
   width: 100%;
   padding: 6px 0;
   border: none;
@@ -55,11 +42,11 @@
   cursor: pointer;
 }
 
-.app-info__button--primary {
+.app-sidebar__button--primary {
   background-color: #0069d9;
 }
 
-.app-info__button--warning {
+.app-sidebar__button--warning {
   background-color: #ffc107;
   color: #000;
 }

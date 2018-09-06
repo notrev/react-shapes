@@ -1,0 +1,28 @@
+.app-info__list {
+  margin-left: auto;
+  margin-right: auto;
+  list-style: none;
+  padding: 0;
+}
+
+.app-info__list-item,
+.app-info__list-item--centralized {
+  margin: 5px 10px;
+}
+
+.app-info__list-item--centralized {
+  text-align: center;
+}
+
+.app-info__separator {
+  border-bottom: 1px solid #dad6d6;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.app-info__area,
+.app-info__center,
+.app-info__coordinates {
+  padding-left: 40px;
+}
+
