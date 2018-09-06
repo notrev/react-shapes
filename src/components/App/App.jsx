@@ -160,9 +160,11 @@ class App extends React.Component {
     newState.points = newState.points.filter((item, i) => i < 3);
     newState.points[positionIndex] = newPosition;
 
-    newState.points.push(this.calculate4thPoint(...newState.points));
-    newState.area = this.calculateAreaOfParallelogram(...newState.points);
-    newState.center = this.calculateCenterOfMassOfParallelogram(...newState.points);
+    if (newState.points.length === 3) {
+      newState.points.push(this.calculate4thPoint(...newState.points));
+      newState.area = this.calculateAreaOfParallelogram(...newState.points);
+      newState.center = this.calculateCenterOfMassOfParallelogram(...newState.points);
+    }
 
     this.setState(newState);
   }
