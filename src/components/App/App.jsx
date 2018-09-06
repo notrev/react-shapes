@@ -23,13 +23,13 @@ class App extends React.Component {
     super(props);
     this.state = {
       points: [],
-      center: { x: 0, y: 0 },
+      center: { x: -1, y: -1 },
       area: 0,
     };
 
     this.handleClickOnSVG = this.handleClickOnSVG.bind(this);
     this.createPoints = this.createPoints.bind(this);
-    this.clearPoints = this.clearPoints.bind(this);
+    this.resetState = this.resetState.bind(this);
     this.movePoint = this.movePoint.bind(this);
   }
 
@@ -168,10 +168,14 @@ class App extends React.Component {
   }
 
   /**
-   * Resets the points list in the component state
+   * Resets the component state to its initial values
    */
-  clearPoints() {
-    this.setState({ points: [] });
+  resetState() {
+    this.setState({
+      points: [],
+      center: { x: -1, y: -1 },
+      area: 0,
+    });
   }
 
   /**
@@ -204,8 +208,57 @@ class App extends React.Component {
    * @return {string} JSX component
    */
   render() {
+    let coordinates = 'none';
+    let center = 'none';
+    let area = 'none';
+
+    if (this.state.points.length > 0) {
+      const edges = ['A', 'B', 'C', 'D'];
+
+      coordinates = this.state.points
+        .map((point, i) => <li key={i}>{edges[i]}({point.x}, {point.y})</li>);
+    }
+
+    if (this.state.area) {
+      area = this.state.area;
+    }
+
+    if (this.state.center && this.state.center.x > -1 && this.state.center.y > -1) {
+      center = `(${this.state.center.x}, ${this.state.center.y})`;
+    }
+
     return (
       <div className="app">
+        <div className="app-info">
+          <ul className="app-info__list">
+            <li className="app-info__list-item--centralized">
+              <button className="app-info__button--primary">About</button>
+            </li>
+
+            <li className="app-info__list-item">
+              <div className="app-info__separator"></div>
+            </li>
+
+            <li className="app-info__list-item">
+              <label for="app-info__area">Area:</label>
+              <div className="app-info__area">{area}</div>
+            </li>
+            <li className="app-info__list-item">
+              <label for="app-info__center">Center of mass:</label>
+              <div className="app-info__center">{center}</div>
+            </li>
+            <li className="app-info__list-item">
+              <label for="app-info__coordinates">Coordinates:</label>
+              <ul className="app-info__coordinates">{coordinates}</ul>
+            </li>
+            <li className="app-info__list-item--centralized">
+              <button
+                className="app-info__button--warning"
+                onClick={this.resetState}
+              >Reset</button>
+            </li>
+          </ul>
+        </div>
         <SVG onClick={this.handleClickOnSVG} handleDrop={this.movePoint}>
           {this.createParallelogram()}
           {this.createCircle()}

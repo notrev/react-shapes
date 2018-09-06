@@ -1,9 +1,10 @@
 .app__point {
   fill: #f00;
   stroke: none;
+  cursor: move;
 }
 
 .app__circle {
   fill: none;
-  stroke: #ff0;
+  stroke: #e6e600;
 }

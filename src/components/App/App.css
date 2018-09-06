@@ -1,6 +1,65 @@
 .app {
-  text-align: center;
-  display: flex;
   width: 100%;
   height: 100%;
+}
+
+.app-info {
+  position: absolute;
+  left: 30px;
+  background-color: #e6e6e6;
+  float: left;
+  width: 20%;
+  min-width: 200px;
+  max-width: 400px;
+  box-shadow: 0 0 10px 0px #aaa;
+  border-radius: 0 0 10px 10px;
+}
+
+.app-info__list {
+  margin-left: auto;
+  margin-right: auto;
+  list-style: none;
+  padding: 0;
+}
+
+.app-info__list-item,
+.app-info__list-item--centralized {
+  margin: 5px 10px;
+}
+
+.app-info__list-item--centralized {
+  text-align: center;
+}
+
+.app-info__separator {
+  border-bottom: 1px solid #dad6d6;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.app-info__area,
+.app-info__center,
+.app-info__coordinates {
+  padding-left: 40px;
+}
+
+.app-info__button,
+.app-info__button--primary,
+.app-info__button--warning {
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.app-info__button--primary {
+  background-color: #0069d9;
+}
+
+.app-info__button--warning {
+  background-color: #ffc107;
+  color: #000;
 }
