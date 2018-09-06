@@ -35,15 +35,15 @@ class Info extends React.Component {
       <div className="app-info">
         <ul className="app-info__list">
           <li className="app-info__list-item">
-            <label for="app-info__area">Area:</label>
+            <label htmlFor="app-info__area">Area:</label>
             <div className="app-info__area">{area}</div>
           </li>
           <li className="app-info__list-item">
-            <label for="app-info__center">Center of mass:</label>
+            <label htmlFor="app-info__center">Center of mass:</label>
             <div className="app-info__center">{center}</div>
           </li>
           <li className="app-info__list-item">
-            <label for="app-info__coordinates">Coordinates:</label>
+            <label htmlFor="app-info__coordinates">Coordinates:</label>
             <ul className="app-info__coordinates">{coordinates}</ul>
           </li>
         </ul>

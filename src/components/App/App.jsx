@@ -2,7 +2,7 @@ import React from 'react';
 import { DragDropContext } from 'react-dnd';
 import MouseBackend from 'react-dnd-mouse-backend';
 
-import { Info, SVG, Circle, Parallelogram } from '../';
+import { Info, About, SVG, Circle, Parallelogram } from '../';
 
 import './App.css';
 
@@ -25,12 +25,16 @@ class App extends React.Component {
       points: [],
       center: { x: -1, y: -1 },
       area: 0,
+      shouldShowAbout: false,
     };
 
     this.handleClickOnSVG = this.handleClickOnSVG.bind(this);
     this.createPoints = this.createPoints.bind(this);
     this.resetState = this.resetState.bind(this);
     this.movePoint = this.movePoint.bind(this);
+    this.showAbout = this.showAbout.bind(this);
+    this.hideAbout = this.hideAbout.bind(this);
+    this.about = this.about.bind(this);
   }
 
   /**
@@ -205,17 +209,45 @@ class App extends React.Component {
   }
 
   /**
+   * Sets a flag in the component state that indicates that the About component should be shown
+   *
+   */
+  showAbout() {
+    this.setState({ shouldShowAbout: true });
+  }
+
+  /**
+   * Sets a flag in the component state that indicates that the About component should be hidden
+   *
+   */
+  hideAbout() {
+    this.setState({ shouldShowAbout: false });
+  }
+
+  /**
+   * Checks if the shouldShowAbout flag is set to true in the component state, and returns the
+   * About component if it is
+   *
+   * @return {string} JSX component
+   */
+  about() {
+    if (this.state.shouldShowAbout === true) {
+      return <About handleBackClick={this.hideAbout}/>;
+    }
+  }
+
+  /**
    * Renders the component
    *
    * @return {string} JSX component
    */
   render() {
-
     return (
       <div className="app">
+        {this.about()}
         <div className="app-sidebar">
           <div className="app-sidebar__item-wrapper--centralized">
-            <button className="app-sidebar__button--primary">About</button>
+            <button className="app-sidebar__button--primary" onClick={this.showAbout}>About</button>
           </div>
 
           <div className="app-sidebar__item-wrapper">
@@ -231,10 +263,7 @@ class App extends React.Component {
           </div>
 
           <div className="app-sidebar__item-wrapper--centralized">
-            <button
-              className="app-sidebar__button--warning"
-              onClick={this.resetState}
-            >Reset</button>
+            <button className="app-sidebar__button--warning" onClick={this.resetState}>Reset</button>
           </div>
 
         </div>
